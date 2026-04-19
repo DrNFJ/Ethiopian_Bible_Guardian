@@ -1,0 +1,5 @@
+{
+  "source_pdfs": 18,
+  "chunk_count": 45659,
+  "output": "data/chunks/chunks.jsonl"
+}

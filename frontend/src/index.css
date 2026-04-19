@@ -1,0 +1,41 @@
+:root {
+  --ink: #1b1711;
+  --ink-soft: #4b402f;
+  --muted: #75674f;
+  --line: #d7c9ac;
+  --panel: rgba(255, 249, 239, 0.86);
+  --card-bg: rgba(255, 252, 246, 0.92);
+  --input-bg: rgba(255, 252, 246, 0.96);
+  --focus: #a66f2d;
+  --danger: #9f1c1c;
+  --button-bg: #352712;
+  --button-line: #6e4a1a;
+  --button-ink: #f8e9cc;
+  --shadow-soft: 0 10px 30px rgba(40, 27, 9, 0.12);
+
+  font-family: Georgia, 'Palatino Linotype', 'Book Antiqua', serif;
+  color: var(--ink);
+  background: #f7eddc;
+  line-height: 1.5;
+  font-size: 16px;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  background:
+    radial-gradient(circle at 10% 0%, rgba(205, 152, 72, 0.22), transparent 40%),
+    radial-gradient(circle at 100% 80%, rgba(120, 77, 32, 0.22), transparent 42%),
+    linear-gradient(180deg, #f7eddc, #f2e2c5);
+}
+
+#root {
+  min-height: 100vh;
+}

@@ -1,0 +1,110 @@
+[
+  {
+    "id": 1,
+    "book_title": "Ethiopian Bible Large Print New Testament",
+    "source_file": "10. Ethiopian Bible Large Print New Testament.pdf",
+    "path": "corpus/10. Ethiopian Bible Large Print New Testament.pdf"
+  },
+  {
+    "id": 2,
+    "book_title": "Acts of Peter",
+    "source_file": "11. Acts of Peter.pdf",
+    "path": "corpus/11. Acts of Peter.pdf"
+  },
+  {
+    "id": 3,
+    "book_title": "Acts of Thomas",
+    "source_file": "12. Acts of Thomas.pdf",
+    "path": "corpus/12. Acts of Thomas.pdf"
+  },
+  {
+    "id": 4,
+    "book_title": "Acts of John",
+    "source_file": "13. Acts of John.pdf",
+    "path": "corpus/13. Acts of John.pdf"
+  },
+  {
+    "id": 5,
+    "book_title": "Sibylline Oracles",
+    "source_file": "14. Sibylline Oracles.pdf",
+    "path": "corpus/14. Sibylline Oracles.pdf"
+  },
+  {
+    "id": 6,
+    "book_title": "The Book of Giants",
+    "source_file": "15. The Book of Giants.pdf",
+    "path": "corpus/15. The Book of Giants.pdf"
+  },
+  {
+    "id": 7,
+    "book_title": "The Book of Jubilees",
+    "source_file": "16. The Book of Jubilees.pdf",
+    "path": "corpus/16. The Book of Jubilees.pdf"
+  },
+  {
+    "id": 8,
+    "book_title": "Book of Jasher",
+    "source_file": "17. Book of Jasher.pdf",
+    "path": "corpus/17. Book of Jasher.pdf"
+  },
+  {
+    "id": 9,
+    "book_title": "Book of Maccabees 1-4",
+    "source_file": "18. Book of Maccabees 1-4.pdf",
+    "path": "corpus/18. Book of Maccabees 1-4.pdf"
+  },
+  {
+    "id": 10,
+    "book_title": "The Testament of Abraham",
+    "source_file": "19. The Testament of Abraham.pdf",
+    "path": "corpus/19. The Testament of Abraham.pdf"
+  },
+  {
+    "id": 11,
+    "book_title": "Shepherd of Hermas",
+    "source_file": "20. Shepherd of Hermas.pdf",
+    "path": "corpus/20. Shepherd of Hermas.pdf"
+  },
+  {
+    "id": 12,
+    "book_title": "Master Apocrypha 120-Book Collection",
+    "source_file": "3. Master Apocrypha 120-Book Collection.pdf",
+    "path": "corpus/3. Master Apocrypha 120-Book Collection.pdf"
+  },
+  {
+    "id": 13,
+    "book_title": "Volume 1 - Additional 1796 Books 4Q to De",
+    "source_file": "4. Volume 1 - Additional 1796 Books 4Q to De.pdf",
+    "path": "corpus/4. Volume 1 - Additional 1796 Books 4Q to De.pdf"
+  },
+  {
+    "id": 14,
+    "book_title": "Volume 2 - Additional 1796 Books De to Hy",
+    "source_file": "5. Volume 2 - Additional 1796 Books De to Hy.pdf",
+    "path": "corpus/5. Volume 2 - Additional 1796 Books De to Hy.pdf"
+  },
+  {
+    "id": 15,
+    "book_title": "Volume 3 - Additional 1796 Books Ig to Ph",
+    "source_file": "6. Volume 3 - Additional 1796 Books Ig to Ph.pdf",
+    "path": "corpus/6. Volume 3 - Additional 1796 Books Ig to Ph.pdf"
+  },
+  {
+    "id": 16,
+    "book_title": "Volume 4 - Additional 1796 Books Ph to Zo",
+    "source_file": "7. Volume 4 - Additional 1796 Books Ph to Zo.pdf",
+    "path": "corpus/7. Volume 4 - Additional 1796 Books Ph to Zo.pdf"
+  },
+  {
+    "id": 17,
+    "book_title": "Ethiopian Bible Large print Apocrypha",
+    "source_file": "8. Ethiopian Bible Large print Apocrypha.pdf",
+    "path": "corpus/8. Ethiopian Bible Large print Apocrypha.pdf"
+  },
+  {
+    "id": 18,
+    "book_title": "Ethiopian Bible Large Print Old Testaments",
+    "source_file": "9. Ethiopian Bible Large Print Old Testaments.pdf",
+    "path": "corpus/9. Ethiopian Bible Large Print Old Testaments.pdf"
+  }
+]

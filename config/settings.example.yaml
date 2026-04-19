@@ -1,0 +1,13 @@
+retrieval:
+  top_k: 8
+  lexical_fallback: true
+  rerank: true
+
+generation:
+  max_witness_quotes: 2
+  require_citation: true
+  enforce_four_part_response: true
+
+safety:
+  refuse_fabrication: true
+  require_uncertainty_disclosure: true
