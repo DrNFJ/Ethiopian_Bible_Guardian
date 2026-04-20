@@ -10,10 +10,11 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@aws-amplify/ui-react": "^6.15.3",
+    "aws-amplify": "^6.4.0",
+    "esbuild": "^0.28.0",
     "react": "^19.2.4",
-    "react-dom": "^19.2.4",
-    "@aws-amplify/ui-react": "^7.0.0",
-    "aws-amplify": "^6.4.0"
+    "react-dom": "^19.2.4"
   },
   "devDependencies": {
     "@eslint/js": "^9.39.4",

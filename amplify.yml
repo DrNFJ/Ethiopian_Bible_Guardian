@@ -1,30 +1,12 @@
 version: 1
-backend:
-  phases:
-    preBuild:
-      commands:
-        - echo "Backend build phase"
-    build:
-      commands:
-        - cd .. && python -m pip install -r requirements.txt
-        - cd backend && python -m pytest -q || true
-    postBuild:
-      commands:
-        - echo "Backend build complete"
 frontend:
   phases:
     preBuild:
       commands:
-        - echo "Frontend pre-build phase"
-        - cd frontend
-        - npm ci
+        - npm ci --prefix frontend
     build:
       commands:
-        - echo "Building frontend for environment $AMPLIFY_ENVIRONMENT"
-        - npm run build
-    postBuild:
-      commands:
-        - echo "Frontend build complete"
+        - npm run build --prefix frontend
   artifacts:
     baseDirectory: frontend/dist
     files:
@@ -32,7 +14,3 @@ frontend:
   cache:
     paths:
       - frontend/node_modules/**/*
-env:
-  variables:
-    VITE_API_BASE_URL: $VITE_API_BASE_URL
-    AMPLIFY_ENVIRONMENT: $AMPLIFY_ENVIRONMENT
