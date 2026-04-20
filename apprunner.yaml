@@ -14,4 +14,4 @@ run:
     - name: PYTHONPATH
       value: "."
     - name: ALLOWED_ORIGINS
-      value: "https://main.YOUR_AMPLIFY_ID.amplifyapp.com"
+      value: "https://main.d3ikvvkiq1vdlw.amplifyapp.com"
