@@ -19,6 +19,8 @@ def answer_query(query: str, top_k: int = 5) -> dict:
         "witness": response.witness,
         "exhortation": response.exhortation,
         "reflection": response.reflection,
+        "retrieval_confidence": retrieval.confidence,
+        "used_lexical_fallback": retrieval.used_lexical_fallback,
         "citations": [
             {
                 "book_title": c.book_title,

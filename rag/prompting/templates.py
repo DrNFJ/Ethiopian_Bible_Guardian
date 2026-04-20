@@ -7,30 +7,32 @@ def build_invocation() -> str:
 
 def build_witness(chunks: list[RetrievedChunk], low_confidence: bool) -> str:
     if not chunks:
-        return "No witness text could be retrieved from the corpus."
+        return "Retrieved evidence: no supporting passage could be recovered from the present search."
 
     quotes = []
     for chunk in chunks[:2]:
         snippet = chunk.text[:180].strip()
         quotes.append(f'"{snippet}"')
 
-    witness = " ".join(quotes)
+    witness = "Retrieved evidence: " + " ".join(quotes)
     if low_confidence:
-        witness += " Retrieval confidence is low; broader search may be needed."
+        witness += " Retrieval confidence is limited; these lines may be incomplete for a firm conclusion."
     return witness
 
 
 def build_exhortation(query: str, low_confidence: bool) -> str:
     if low_confidence:
         return (
-            "A bounded answer can be offered, yet confidence is limited by the present witness. "
-            "Grant leave to broaden retrieval if you seek firmer testimony."
+            "Traditional interpretation (bounded): the present witness is too thin for certainty. "
+            "Grant leave to broaden retrieval if you seek firmer testimony across related texts."
         )
     return (
-        "From the witness presented, a faithful first answer is offered in humility: "
+        "Traditional interpretation: from the witness presented, a faithful first answer is offered in humility: "
         f"{query.strip() or 'clarify your question so the witness may be sharper.'}"
     )
 
 
-def build_reflection() -> str:
+def build_reflection(low_confidence: bool) -> str:
+    if low_confidence:
+        return "Shall I widen the search across additional books to strengthen the witness?"
     return "Would you have me remain in this book, or compare witness across related texts?"

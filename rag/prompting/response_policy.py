@@ -9,13 +9,13 @@ from rag.prompting.templates import (
 
 
 def compose_response(query: str, retrieval: RetrievalResult) -> OrchestratedResponse:
-    low_confidence = retrieval.confidence < 0.5
+    low_confidence = not retrieval.chunks or retrieval.confidence < 0.55
     citations = citations_from_chunks(retrieval.chunks)
 
     return OrchestratedResponse(
         invocation=build_invocation(),
         witness=build_witness(retrieval.chunks, low_confidence=low_confidence),
         exhortation=build_exhortation(query, low_confidence=low_confidence),
-        reflection=build_reflection(),
+        reflection=build_reflection(low_confidence=low_confidence),
         citations=citations,
     )

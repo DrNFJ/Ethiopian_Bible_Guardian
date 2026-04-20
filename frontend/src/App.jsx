@@ -2,6 +2,7 @@ import { useMemo, useState } from 'react'
 import './App.css'
 
 const API_BASE_URL = (import.meta.env.VITE_API_BASE_URL || 'http://127.0.0.1:8000').replace(/\/$/, '')
+const SHOW_API_NOTE = import.meta.env.DEV
 
 function App() {
   const [query, setQuery] = useState('')
@@ -11,6 +12,27 @@ function App() {
   const [response, setResponse] = useState(null)
 
   const canSubmit = useMemo(() => query.trim().length > 0 && !loading, [query, loading])
+  const confidencePct = useMemo(() => {
+    const raw = Number(response?.retrieval_confidence)
+    if (!Number.isFinite(raw)) {
+      return null
+    }
+    const bounded = Math.max(0, Math.min(1, raw))
+    return Math.round(bounded * 100)
+  }, [response])
+
+  const confidenceLevel = useMemo(() => {
+    if (confidencePct === null) {
+      return 'unknown'
+    }
+    if (confidencePct >= 70) {
+      return 'high'
+    }
+    if (confidencePct >= 40) {
+      return 'medium'
+    }
+    return 'low'
+  }, [confidencePct])
 
   async function onSubmit(event) {
     event.preventDefault()
@@ -51,10 +73,9 @@ function App() {
     <main className="page-shell">
       <section className="hero">
         <p className="eyebrow">Ethiopian Bible Guardian</p>
-        <h1>Seek Witness Before Interpretation</h1>
+        <h1>The Truth is Revealed in Knowing the True Story</h1>
         <p className="hero-copy">
-          Ask a question and receive a four-part response in a solemn voice:
-          Invocation, Witness, Exhortation, and Reflection.
+          Ask a question and receive an answer grounded in the Ethiopian Bible Guardian's witness.
         </p>
       </section>
 
@@ -65,14 +86,14 @@ function App() {
             id="query"
             value={query}
             onChange={(e) => setQuery(e.target.value)}
-            placeholder="What witness speaks to steadfast faith in trial?"
+            placeholder="What is your question?"
             rows={5}
           />
 
           <div className="form-row">
-            <label htmlFor="topk">Top K</label>
+            <label htmlFor="sources">Number of Sources</label>
             <input
-              id="topk"
+              id="sources"
               type="number"
               value={topK}
               min={1}
@@ -86,9 +107,11 @@ function App() {
           </button>
         </form>
 
-        <div className="api-note">
-          <strong>API:</strong> {API_BASE_URL}
-        </div>
+        {SHOW_API_NOTE ? (
+          <div className="api-note">
+            <strong>API:</strong> {API_BASE_URL}
+          </div>
+        ) : null}
 
         {error ? <p className="error">{error}</p> : null}
       </section>
@@ -98,24 +121,44 @@ function App() {
         {!response ? (
           <p className="placeholder">Awaiting a question to render witness.</p>
         ) : (
-          <div className="response-grid">
-            <article>
-              <h3>Invocation</h3>
-              <p>{response.invocation}</p>
-            </article>
-            <article>
-              <h3>Witness</h3>
-              <p>{response.witness}</p>
-            </article>
-            <article>
-              <h3>Exhortation</h3>
-              <p>{response.exhortation}</p>
-            </article>
-            <article>
-              <h3>Reflection</h3>
-              <p>{response.reflection}</p>
-            </article>
-          </div>
+          <>
+            <div className="response-grid">
+              <article>
+                <h3>Invocation</h3>
+                <p>{response.invocation}</p>
+              </article>
+              <article>
+                <h3>Witness</h3>
+                <p>{response.witness}</p>
+              </article>
+              <article>
+                <h3>Exhortation</h3>
+                <p>{response.exhortation}</p>
+              </article>
+              <article>
+                <h3>Reflection</h3>
+                <p>{response.reflection}</p>
+              </article>
+            </div>
+
+            <div className="retrieval-status" aria-live="polite">
+              <h3>Retrieval Status</h3>
+              <p>
+                Confidence:{' '}
+                <strong>{confidencePct === null ? 'unknown' : `${confidencePct}%`}</strong>
+                <span className={`confidence-badge confidence-${confidenceLevel}`}>
+                  {confidenceLevel}
+                </span>
+              </p>
+              <p>
+                Mode:{' '}
+                <strong>{response.used_lexical_fallback ? 'lexical fallback' : 'semantic first'}</strong>
+              </p>
+              <p className="confidence-help">
+                High: grounded witness; Medium: useful but partial; Low: request broader retrieval.
+              </p>
+            </div>
+          </>
         )}
       </section>
 

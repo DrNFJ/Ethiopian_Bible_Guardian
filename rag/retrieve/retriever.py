@@ -30,6 +30,22 @@ def _lexical_score(query: str, text: str) -> float:
     return hits / len(q_tokens)
 
 
+def _confidence_from_ranked(chunks: list[RetrievedChunk], used_lexical_fallback: bool) -> float:
+    if not chunks:
+        return 0.0
+
+    top_score = chunks[0].score
+    sample = chunks[:3]
+    avg_score = sum(c.score for c in sample) / len(sample)
+    depth_bonus = min(1.0, len(chunks) / 3)
+
+    confidence = (0.65 * top_score) + (0.25 * avg_score) + (0.10 * depth_bonus)
+    if used_lexical_fallback:
+        confidence *= 0.75
+
+    return max(0.0, min(1.0, confidence))
+
+
 def _load_chunk_rows() -> list[dict]:
     if not CHUNKS_FILE.exists():
         return []
@@ -67,11 +83,16 @@ def retrieve_candidates(query: str, top_k: int = 5) -> RetrievalResult:
     if not rows:
         return _seed_result(top_k=top_k, query=query)
 
+    normalized_top_k = max(1, top_k)
+
     semantic_hits: list[RetrievedChunk] = []
     for row in rows:
-        score = _semantic_score(query, row.get("text", ""))
-        if score <= 0.0:
+        semantic = _semantic_score(query, row.get("text", ""))
+        if semantic <= 0.0:
             continue
+        lexical = _lexical_score(query, row.get("text", ""))
+        # Blend semantic signal with a light lexical tie-breaker.
+        score = (0.85 * semantic) + (0.15 * lexical)
         semantic_hits.append(
             RetrievedChunk(
                 chunk_id=row["chunk_id"],
@@ -84,7 +105,7 @@ def retrieve_candidates(query: str, top_k: int = 5) -> RetrievalResult:
         )
 
     semantic_hits.sort(key=lambda c: c.score, reverse=True)
-    ranked = semantic_hits[:top_k]
+    ranked = semantic_hits[:normalized_top_k]
     used_lexical_fallback = False
 
     if not ranked:
@@ -104,10 +125,13 @@ def retrieve_candidates(query: str, top_k: int = 5) -> RetrievalResult:
                 )
             )
         fallback_hits.sort(key=lambda c: c.score, reverse=True)
-        ranked = fallback_hits[:top_k]
+        ranked = fallback_hits[:normalized_top_k]
         used_lexical_fallback = True
 
-    confidence = ranked[0].score if ranked else 0.0
+    confidence = _confidence_from_ranked(
+        chunks=ranked,
+        used_lexical_fallback=used_lexical_fallback,
+    )
     return RetrievalResult(
         chunks=ranked,
         confidence=confidence,

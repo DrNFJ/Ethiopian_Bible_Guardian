@@ -49,3 +49,59 @@ def test_retriever_falls_back_to_lexical_when_semantic_misses(tmp_path) -> None:
 
     assert result.chunks
     assert result.used_lexical_fallback is True
+
+
+def test_retriever_confidence_is_bounded_between_zero_and_one(tmp_path) -> None:
+    chunks_file = tmp_path / "chunks.jsonl"
+    rows = [
+        {
+            "chunk_id": "acts:p1:c1",
+            "book_title": "Acts of Peter",
+            "source_file": "11. Acts of Peter.pdf",
+            "page_number": 1,
+            "text": "Witness and steadfast prayer were kept by the elders.",
+        },
+        {
+            "chunk_id": "acts:p1:c2",
+            "book_title": "Acts of Peter",
+            "source_file": "11. Acts of Peter.pdf",
+            "page_number": 1,
+            "text": "The assembly held witness through prayer.",
+        },
+    ]
+    chunks_file.write_text("\n".join(json.dumps(r) for r in rows) + "\n", encoding="utf-8")
+
+    original = retriever.CHUNKS_FILE
+    retriever.CHUNKS_FILE = chunks_file
+    try:
+        result = retriever.retrieve_candidates("witness prayer elders", top_k=2)
+    finally:
+        retriever.CHUNKS_FILE = original
+
+    assert 0.0 <= result.confidence <= 1.0
+
+
+def test_retriever_lexical_fallback_reduces_confidence(tmp_path) -> None:
+    chunks_file = tmp_path / "chunks.jsonl"
+    row = {
+        "chunk_id": "acts:p1:c1",
+        "book_title": "Acts of Peter",
+        "source_file": "11. Acts of Peter.pdf",
+        "page_number": 1,
+        "text": "The witness was kept in the assembly.",
+    }
+    chunks_file.write_text(json.dumps(row) + "\n", encoding="utf-8")
+
+    original = retriever.CHUNKS_FILE
+    original_semantic = retriever._semantic_score
+    retriever.CHUNKS_FILE = chunks_file
+    try:
+        semantic_result = retriever.retrieve_candidates("witness assembly", top_k=1)
+        retriever._semantic_score = lambda query, text: 0.0
+        lexical_result = retriever.retrieve_candidates("witness assembly", top_k=1)
+    finally:
+        retriever.CHUNKS_FILE = original
+        retriever._semantic_score = original_semantic
+
+    assert lexical_result.used_lexical_fallback is True
+    assert lexical_result.confidence < semantic_result.confidence
