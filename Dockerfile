@@ -11,7 +11,7 @@ COPY app/ app/
 COPY rag/ rag/
 COPY data/chunks/ data/chunks/
 
-# Expose the port App Runner expects
+# Expose the port ECS expects
 EXPOSE 8080
 
 CMD ["uvicorn", "app.api.main:app", "--host", "0.0.0.0", "--port", "8080"]
